@@ -34,10 +34,10 @@ def get_villagers_by_species(filename, search_string="All"):
         - list[str]: a list of names
     """
 
-    villagers = []
+  
 
     open_name = open(filename)
-
+    villagers = []
     for line in open_name:
         bio = line.split('|')
         if bio[1] == search_string:
@@ -46,6 +46,7 @@ def get_villagers_by_species(filename, search_string="All"):
     open_name.close()
 
     return sorted(villagers)
+
 
 
 def all_names_by_hobby(filename):
@@ -95,7 +96,7 @@ def all_names_by_hobby(filename):
 
     return [[nature], [education], [fitness], [fashion], [music], [play]]
 
-print(all_names_by_hobby("villagers.csv"))
+
 
 def all_data(filename):
     """Return all the data in a file.
@@ -112,9 +113,19 @@ def all_data(filename):
 
     all_data = []
 
-    # TODO: replace this with your code
+    open_name = open(filename)
+
+    #read each line of data
+    for line in open_name:
+        #return a list of name, species, personality, hobby, and motto 
+        bio = line.split('|')
+        #return a tuple contaning elements of bio list
+        tups_of_info = tuple(bio)
+        all_data.append(tups_of_info)
 
     return all_data
+
+
 
 
 def find_motto(filename, villager_name):
@@ -131,7 +142,16 @@ def find_motto(filename, villager_name):
         - str: the villager's motto or None
     """
 
-    # TODO: replace this with your code
+    open_name = open(filename)
+
+    for line in open_name:
+        bio = line.split('|')
+        if villager_name == bio[0]:
+            return bio[4]
+        else: 
+            return None
+    
+
 
 
 def find_likeminded_villagers(filename, villager_name):
@@ -148,5 +168,21 @@ def find_likeminded_villagers(filename, villager_name):
         >>> find_likeminded_villagers('villagers.csv', 'Wendy')
         {'Bella', ..., 'Carmen'}
     """
+    personality = []
+    names_personality = None
+    open_name = open(filename)
 
-    # TODO: replace this with your code
+    #iterate through each line of data
+    for line in open_name:
+        #return list of name, species, personality, hobby, mott
+        bio = line.split('|')
+        #if name matches argument villager_name
+        if villager_name == bio[0]:
+            #set variable names_personality to the villager_name's personality
+            names_personality = bio[2]
+        #if bio[2] which is personality matches names_persanlity, push name into personality set
+        if bio[2] == names_personality:
+            personality.append(bio[0])
+    return sorted(set(personality))
+
+print(find_likeminded_villagers("villagers.csv", "Pango"))
